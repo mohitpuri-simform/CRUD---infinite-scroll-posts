@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "parcel ./src/index.html",
+    "prebuild":"rimraf dist",
     "build": "parcel build ./index.html",
     "lint": "eslint --ext .js,.ts .",
     "prepare": "husky install",
