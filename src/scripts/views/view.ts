@@ -4,6 +4,11 @@ export class View {
   addPost(posts: PostModel[]) {
     const postContainer: HTMLDivElement =
       document.querySelector(".posts-container")!;
+    postContainer.textContent = "";
+    if (posts.length === 0) {
+      postContainer.textContent =
+        "No posts found, Try searching for other keywords...";
+    }
     posts.forEach((data: PostModel) => {
       // Create the DOM elements.
       const post = document.createElement("div");
