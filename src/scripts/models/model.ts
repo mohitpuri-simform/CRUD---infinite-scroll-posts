@@ -1,10 +1,11 @@
 export interface PostModel {
+  id: number;
   body: string;
   reactions: {
-    likes: string;
-    dislikes: string;
+    likes: number;
+    dislikes: number;
   };
   tags: string[];
   title: string;
-  views: string;
+  views: number;
 }

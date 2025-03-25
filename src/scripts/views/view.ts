@@ -1,30 +1,7 @@
 import { PostModel } from "../models/model";
 
 export class View {
-  private readonly title: string;
-  private readonly content: string;
-  private readonly likes: number;
-  private readonly dislikes: number;
-  private readonly tags: string[];
-  private readonly views: string;
-
-  constructor(
-    title: string,
-    content: string,
-    likes: number,
-    dislikes: number,
-    tags: string[],
-    views: string
-  ) {
-    this.title = title;
-    this.content = content;
-    this.likes = likes;
-    this.dislikes = dislikes;
-    this.tags = tags;
-    this.views = views;
-  }
-
-  static addPost(posts: PostModel[]) {
+  addPost(posts: PostModel[]) {
     const postContainer: HTMLDivElement =
       document.querySelector(".posts-container")!;
     posts.forEach((data: PostModel) => {
@@ -49,14 +26,14 @@ export class View {
       // Add the data to DOM.
       title.textContent = data.title;
       content.textContent = data.body;
-      views.textContent = data.views;
+      views.textContent = data.views.toString();
       for (const element of data.tags) {
         const span = document.createElement("p");
         span.textContent = element;
         tags.append(span);
       }
-      likes.textContent = data.reactions.likes;
-      dislikes.textContent = data.reactions.dislikes;
+      likes.textContent = data.reactions.likes.toString();
+      dislikes.textContent = data.reactions.dislikes.toString();
       reactions.append(likes, dislikes);
       post.append(title, content, tags, views, reactions);
       postContainer.append(post);
