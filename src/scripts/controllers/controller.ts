@@ -1,15 +1,14 @@
 import { View } from "../views/view";
 import { Services } from "../services/services";
+import { POSTS_PER_PAGE, SKIP_POSTS } from "../constants";
 
 export class Controller {
-  private skipPosts: number;
-  private postsPerPage: number;
+  private skipPosts: number = SKIP_POSTS;
+  private postsPerPage: number = POSTS_PER_PAGE;
   view: View;
   apiServices: Services;
 
-  constructor(skipPosts: number = 0, postsPerPage: number = 4) {
-    this.skipPosts = skipPosts;
-    this.postsPerPage = postsPerPage;
+  constructor() {
     this.apiServices = new Services();
     this.view = new View();
   }
@@ -25,10 +24,9 @@ export class Controller {
       this.skipPosts += this.postsPerPage;
     } catch (error) {
       if (error instanceof Error) {
-        alert(error.message);
-      } else {
-        alert("please try again later");
+        return alert(error.message);
       }
+      alert("please try again later");
     }
   }
 
