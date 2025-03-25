@@ -1,10 +1,9 @@
 {
   "name": "crud",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
     "dev": "parcel ./src/index.html",
-    "build": "parcel build ./index.html",
+    "build": "parcel build ./src/index.html --public-url ./",
     "lint": "eslint --ext .js,.ts .",
     "prepare": "husky install",
     "test": "echo 'No tests yet' && exit 0"
@@ -17,10 +16,11 @@
     "@eslint/js": "^9.22.0",
     "eslint": "^9.22.0",
     "globals": "^16.0.0",
+    "husky": "^8.0.0",
     "parcel": "^2.14.0",
+    "svgo": "^3.3.2",
     "typescript": "^5.8.2",
-    "typescript-eslint": "^8.27.0",
-    "husky": "^8.0.0"
+    "typescript-eslint": "^8.27.0"
   },
   "dependencies": {
     "husky": "^9.1.7"
