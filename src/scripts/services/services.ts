@@ -36,7 +36,7 @@ export class Services {
 
   async editPost(
     id: number,
-    newPost: { title?: string; body?: string }
+    newPost: { title: string; body: string }
   ): Promise<PostModel> {
     try {
       const response = await fetch(`https://dummyjson.com/posts/${id}`, {
