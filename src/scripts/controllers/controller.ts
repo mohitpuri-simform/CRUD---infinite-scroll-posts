@@ -1,7 +1,8 @@
 import { View } from "../views/view";
 import { Services } from "../services/services";
-import { SKIP_POSTS, POSTS_PER_PAGE } from "../constants";
+import { SKIP_POSTS, POSTS_PER_PAGE, SERVER_DOWN } from "../constants";
 import { PostModel } from "../models/model";
+import { debounce } from "../../utils";
 
 export class Controller {
   private skipPosts: number = SKIP_POSTS;
@@ -11,7 +12,8 @@ export class Controller {
   private posts: PostModel[];
   private checkIfFetching: boolean;
   private checkIfSearching: boolean;
-  private debouncer: ReturnType<typeof setTimeout> | null;
+  // private debouncer: ReturnType<typeof setTimeout> | null;
+  private debounceSearch: (keyword: string) => void;
 
   constructor() {
     this.apiServices = new Services();
@@ -19,7 +21,8 @@ export class Controller {
     this.posts = [];
     this.checkIfFetching = false;
     this.checkIfSearching = false;
-    this.debouncer = null;
+    // this.debouncer = null;
+    this.debounceSearch = debounce(this.searchPostWithKeyword.bind(this), 500);
   }
 
   async displayPost(): Promise<void> {
@@ -40,35 +43,31 @@ export class Controller {
       if (error instanceof Error) {
         return alert(error.message);
       }
-      alert("please try again later");
+      alert(SERVER_DOWN);
     }
   }
 
   async searchPostWithKeyword(keyword: string): Promise<void> {
-    if (this.debouncer) clearTimeout(this.debouncer);
+    if (!keyword.trim()) {
+      this.checkIfSearching = false;
+      this.skipPosts = 0;
+      this.posts = [];
+      await this.displayPost();
+      return;
+    }
 
-    this.debouncer = setTimeout(async () => {
-      if (!keyword.trim()) {
-        this.checkIfSearching = false;
-        this.skipPosts = 0;
-        this.posts = [];
-        await this.displayPost();
-        return;
+    this.checkIfSearching = true;
+
+    try {
+      const data = await this.apiServices.searchPost(keyword);
+      this.view.addPost(data);
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        alert(SERVER_DOWN);
       }
-
-      this.checkIfSearching = true;
-
-      try {
-        const data = await this.apiServices.searchPost(keyword);
-        this.view.addPost(data);
-      } catch (error) {
-        if (error instanceof Error) {
-          alert(error.message);
-        } else {
-          alert("please try again later");
-        }
-      }
-    }, 500);
+    }
   }
 
   infinteScrollPosts() {
@@ -86,8 +85,12 @@ export class Controller {
 
     const searchInput: HTMLInputElement = document.querySelector("#search")!;
     searchInput.addEventListener("input", (e: Event) => {
-      const inputVal = e.target as HTMLInputElement;
-      this.searchPostWithKeyword(inputVal.value);
+      const target = e.target;
+      if (target instanceof HTMLInputElement) {
+        const inputVal = target.value;
+        // this.searchPostWithKeyword(inputVal);
+        this.debounceSearch(inputVal);
+      }
     });
   }
 }

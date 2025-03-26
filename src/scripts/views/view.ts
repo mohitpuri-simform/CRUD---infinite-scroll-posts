@@ -1,3 +1,4 @@
+import { NO_POST_FOUND } from "../constants";
 import { PostModel } from "../models/model";
 
 export class View {
@@ -6,8 +7,7 @@ export class View {
       document.querySelector(".posts-container")!;
     postContainer.textContent = "";
     if (posts.length === 0) {
-      postContainer.textContent =
-        "No posts found, Try searching for other keywords...";
+      postContainer.textContent = NO_POST_FOUND;
     }
     posts.forEach((data: PostModel) => {
       // Create the DOM elements.
