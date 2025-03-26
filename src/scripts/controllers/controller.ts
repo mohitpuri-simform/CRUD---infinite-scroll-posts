@@ -1,6 +1,13 @@
 import { View } from "../views/view";
 import { Services } from "../services/services";
-import { SKIP_POSTS, POSTS_PER_PAGE, SERVER_DOWN } from "../constants";
+import {
+  SKIP_POSTS,
+  POSTS_PER_PAGE,
+  SERVER_DOWN,
+  DELETE,
+  EDIT,
+  ENTER,
+} from "../constants";
 import { PostModel } from "../models/model";
 import { debounce } from "../../utils";
 
@@ -62,9 +69,48 @@ export class Controller {
     } catch (error) {
       if (error instanceof Error) {
         alert(error.message);
-      } else {
-        alert(SERVER_DOWN);
       }
+      alert(SERVER_DOWN);
+    }
+  }
+
+  async editPostWithID(id: number, newPost: object) {
+    console.log(id);
+    try {
+      const data = await this.apiServices.editPost(id, newPost);
+      console.log(data);
+
+      const arr: PostModel[] = [];
+      this.posts.map((item) => {
+        if (item.id === data.id) {
+          item.body = data.body;
+          item.title = data.title;
+        }
+        arr.push(item);
+      });
+      this.posts = [...arr];
+      this.view.addPost(this.posts);
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      }
+      alert(SERVER_DOWN);
+    }
+  }
+
+  async deletePostWithID(id: number): Promise<void> {
+    try {
+      const data = await this.apiServices.deletePost(id);
+      const updatedPosts: PostModel[] = this.posts.filter(
+        (e) => e.id !== data.id
+      );
+      this.posts = [...updatedPosts];
+      this.view.addPost(this.posts);
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      }
+      alert(SERVER_DOWN);
     }
   }
 
@@ -87,6 +133,69 @@ export class Controller {
       if (target instanceof HTMLInputElement) {
         const inputVal = target.value;
         this.debounceSearch(inputVal);
+      }
+    });
+
+    const PostContainer: HTMLDivElement =
+      document.querySelector(".posts-container")!;
+
+    PostContainer.addEventListener("click", (e: Event) => {
+      const target = e.target;
+      if (target instanceof HTMLButtonElement) {
+        const postID: number = Number(target.id);
+
+        if (target.closest("button")!.textContent === DELETE) {
+          this.deletePostWithID(postID);
+        }
+
+        if (target.closest("button")!.textContent === EDIT) {
+          const postTitle = target
+            .closest(".post")!
+            .querySelector(".post-title")!;
+          const postContent = target
+            .closest(".post")!
+            .querySelector(".post-content")!;
+
+          const inputTitle = document.createElement("input");
+          const inputContent = document.createElement("textarea");
+
+          inputTitle.type = "text";
+          inputTitle.value = postTitle.textContent || "";
+          inputContent.value = postContent.textContent || "";
+
+          inputTitle.classList.add("edit-input");
+          inputContent.classList.add("edit-input");
+
+          postTitle.replaceWith(inputTitle);
+          postContent.replaceWith(inputContent);
+
+          inputTitle.focus();
+
+          inputTitle.addEventListener("blur", () => {
+            postTitle.textContent =
+              inputTitle.value.trim() || postTitle.textContent;
+            inputTitle.replaceWith(postTitle);
+            inputContent.focus();
+          });
+
+          inputContent.addEventListener("blur", () => {
+            postContent.textContent =
+              inputContent.value.trim() || postContent.textContent;
+            inputContent.replaceWith(postContent);
+          });
+
+          const newPost = {
+            title: postTitle.textContent,
+            body: postContent.textContent,
+          };
+          inputTitle.addEventListener("keypress", (e: KeyboardEvent) => {
+            if (e.key === ENTER) {
+              inputTitle.blur();
+              inputContent.blur();
+              this.editPostWithID(postID, newPost);
+            }
+          });
+        }
       }
     });
   }
