@@ -1,3 +1,4 @@
+import { attachClassName } from "../../utils";
 import { NO_POST_FOUND } from "../constants";
 import { PostModel } from "../models/model";
 
@@ -11,18 +12,18 @@ export class View {
     }
     posts.forEach((data: PostModel) => {
       const post = document.createElement("div");
-      post.className = "post";
+      attachClassName(post, "post");
 
       const title = document.createElement("p");
-      title.className = "post-title";
+      attachClassName(title, "post-title");
       title.textContent = data.title;
 
       const content = document.createElement("p");
-      content.className = "post-content";
+      attachClassName(content, "post-content");
       content.textContent = data.body;
 
       const tags = document.createElement("div");
-      tags.className = "post-tags";
+      attachClassName(tags, "post-tags");
       for (const element of data.tags) {
         const span = document.createElement("p");
         span.textContent = element;
@@ -30,18 +31,21 @@ export class View {
       }
 
       const reactions = document.createElement("div");
-      reactions.className = "post-reactions";
+      attachClassName(reactions, "post-reactions");
 
       const likes = document.createElement("p");
-      likes.className = "post-likes";
+      attachClassName(likes, "post-likes");
+
       likes.textContent = data.reactions.likes.toString();
 
       const dislikes = document.createElement("p");
-      dislikes.className = "post-dislikes";
+      attachClassName(dislikes, "post-dislikes");
+
       dislikes.textContent = data.reactions.dislikes.toString();
 
       const views = document.createElement("span");
-      views.className = "post-views";
+      attachClassName(views, "post-views");
+
       views.textContent = data.views.toString();
 
       const deleteBtn = document.createElement("button");
@@ -53,7 +57,7 @@ export class View {
       editBtn.id = data.id.toString();
 
       const editDeleteContainer = document.createElement("div");
-      editDeleteContainer.className = "edit-delete-container";
+      attachClassName(editDeleteContainer, "edit-delete-container");
 
       reactions.append(likes, dislikes);
       editDeleteContainer.append(editBtn, deleteBtn);
