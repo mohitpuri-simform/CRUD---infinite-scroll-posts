@@ -12,7 +12,6 @@ export class Controller {
   private posts: PostModel[];
   private checkIfFetching: boolean;
   private checkIfSearching: boolean;
-  // private debouncer: ReturnType<typeof setTimeout> | null;
   private debounceSearch: (keyword: string) => void;
 
   constructor() {
@@ -21,7 +20,6 @@ export class Controller {
     this.posts = [];
     this.checkIfFetching = false;
     this.checkIfSearching = false;
-    // this.debouncer = null;
     this.debounceSearch = debounce(this.searchPostWithKeyword.bind(this), 500);
   }
 
@@ -88,7 +86,6 @@ export class Controller {
       const target = e.target;
       if (target instanceof HTMLInputElement) {
         const inputVal = target.value;
-        // this.searchPostWithKeyword(inputVal);
         this.debounceSearch(inputVal);
       }
     });
