@@ -8,7 +8,7 @@ import {
   EDIT,
   ENTER,
 } from "../constants";
-import { PostModel } from "../models/model";
+import { EditNewPostRequest, PostModel } from "../models/model";
 import { debounce } from "../../utils";
 
 export class Controller {
@@ -74,7 +74,7 @@ export class Controller {
     }
   }
 
-  async editPostWithID(id: number, newPost: object) {
+  async editPostWithID(id: number, newPost: EditNewPostRequest) {
     try {
       const data = await this.apiServices.editPost(id, newPost);
       console.log(data);
@@ -183,9 +183,9 @@ export class Controller {
             inputContent.replaceWith(postContent);
           });
 
-          const newPost = {
-            title: postTitle.textContent,
-            body: postContent.textContent,
+          const newPost: EditNewPostRequest = {
+            title: postTitle.textContent!,
+            body: postContent.textContent!,
           };
           inputTitle.addEventListener("keypress", (e: KeyboardEvent) => {
             if (e.key === ENTER) {

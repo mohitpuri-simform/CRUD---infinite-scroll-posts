@@ -11,3 +11,5 @@ export interface PostModel {
   title: string;
   views: number;
 }
+
+export type EditNewPostRequest = { title: string; body: string };
