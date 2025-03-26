@@ -147,3 +147,53 @@ textarea {
 .post button:hover {
   background-color: var(--btn-hover);
 }
+
+.form-container {
+  padding: var(--spacing);
+}
+
+.create-new-post {
+  display: flex;
+  flex-direction: column;
+  gap: var(--minor-spacing);
+  max-width: 550px;
+  width: 100%;
+  margin: 20px auto;
+  border: 1px solid black;
+  padding: var(--spacing);
+  border-radius: var(--spacing);
+}
+
+.create-new-post p {
+  font-size: var(--font-large);
+  font-weight: bold;
+}
+
+.create-new-post input {
+  padding: var(--minor-spacing);
+  max-width: 550px;
+  width: 100%;
+}
+.create-new-post textarea {
+  padding: var(--minor-spacing);
+}
+.create-new-post button {
+  background-color: transparent;
+  cursor: pointer;
+  width: var(--btn-width);
+  padding: 5px 10px;
+  margin-right: 20px;
+  margin-bottom: var(--spacing);
+  cursor: pointer;
+  border-radius: var(--spacing);
+  background-color: transparent;
+}
+
+.create-new-post button:hover {
+  background-color: var(--btn-hover);
+}
+
+.tags {
+  display: flex;
+  gap: var(--minor-spacing);
+}

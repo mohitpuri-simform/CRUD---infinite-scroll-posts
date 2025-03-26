@@ -7,8 +7,15 @@ import {
   DELETE,
   EDIT,
   ENTER,
+  LIKES_COUNTER,
+  DISLIKES_COUNTER,
+  USER_ID,
 } from "../constants";
-import { EditNewPostRequest, PostModel } from "../models/model";
+import {
+  createdPostModel,
+  EditNewPostRequest,
+  PostModel,
+} from "../models/model";
 import { debounce } from "../../utils";
 
 export class Controller {
@@ -113,6 +120,26 @@ export class Controller {
     }
   }
 
+  async createPostAndAddToDisplay(newPost: createdPostModel) {
+    try {
+      const data = await this.apiServices.createPost(newPost);
+      const updatedPosts: PostModel[] = [];
+      console.log(data);
+
+      updatedPosts.push(data);
+      console.log(updatedPosts);
+
+      this.posts = [...updatedPosts, ...this.posts];
+      this.view.addPost(this.posts);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error);
+        alert(error.message);
+      }
+      alert(SERVER_DOWN);
+    }
+  }
+
   infinteScrollPosts() {
     this.displayPost();
     window.addEventListener("scroll", () => {
@@ -124,6 +151,55 @@ export class Controller {
       ) {
         this.displayPost();
       }
+    });
+
+    const addPostForm: HTMLButtonElement =
+      document.querySelector(".create-new-post")!;
+
+    addPostForm.addEventListener("submit", (e: SubmitEvent) => {
+      e.preventDefault();
+      const postTitle: HTMLInputElement = document.querySelector(
+        "#title"
+      )! as HTMLInputElement;
+
+      const postContent = document.querySelector(
+        "#content"
+      )! as HTMLTextAreaElement;
+
+      const postTag1: HTMLInputElement = document.querySelector(
+        "#tag1"
+      )! as HTMLInputElement;
+      const postTag2: HTMLInputElement = document.querySelector(
+        "#tag2"
+      )! as HTMLInputElement;
+
+      const tag1Value = postTag1.value.trim();
+      const tag2Value = postTag2.value.trim();
+      const postTags: string[] = [];
+      if (tag1Value !== "") {
+        postTags.push(tag1Value);
+      }
+      if (tag2Value !== "") {
+        postTags.push(tag2Value);
+      }
+
+      const newPostContent = postContent.value.trim();
+      const newPostTitle = postTitle.value.trim();
+      if (postContent && postTitle) {
+        const newPost: createdPostModel = {
+          title: newPostTitle,
+          body: newPostContent,
+          userId: USER_ID,
+          tags: postTags,
+          reactions: { likes: LIKES_COUNTER, dislikes: DISLIKES_COUNTER },
+          views: 1,
+        };
+        this.createPostAndAddToDisplay(newPost);
+      }
+      postTitle.value = "";
+      postContent.value = "";
+      postTag1.value = "";
+      postTag2.value = "";
     });
 
     const searchInput: HTMLInputElement = document.querySelector("#search")!;

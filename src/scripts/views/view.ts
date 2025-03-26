@@ -44,9 +44,10 @@ export class View {
       dislikes.textContent = data.reactions.dislikes.toString();
 
       const views = document.createElement("span");
-      attachClassName(views, "post-views");
-
-      views.textContent = data.views.toString();
+      if (data.views) {
+        attachClassName(views, "post-views");
+        views.textContent = data.views.toString();
+      }
 
       const deleteBtn = document.createElement("button");
       deleteBtn.textContent = "Delete";
@@ -61,7 +62,18 @@ export class View {
 
       reactions.append(likes, dislikes);
       editDeleteContainer.append(editBtn, deleteBtn);
-      post.append(title, content, tags, views, reactions, editDeleteContainer);
+      if (!data.views) {
+        post.append(title, content, tags, reactions, editDeleteContainer);
+      } else {
+        post.append(
+          title,
+          content,
+          tags,
+          views,
+          reactions,
+          editDeleteContainer
+        );
+      }
       postContainer.append(post);
     });
   }
