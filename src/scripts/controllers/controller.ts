@@ -75,7 +75,6 @@ export class Controller {
   }
 
   async editPostWithID(id: number, newPost: object) {
-    console.log(id);
     try {
       const data = await this.apiServices.editPost(id, newPost);
       console.log(data);
