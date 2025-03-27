@@ -15,7 +15,6 @@ export class View {
     posts.forEach((data: PostModel) => {
       const post = document.createElement("article");
       post.setAttribute("tabindex", "0");
-      post.setAttribute("aria-labelledby", "");
       attachClassName(post, "post");
 
       const title = document.createElement("p");
