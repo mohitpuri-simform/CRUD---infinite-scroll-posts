@@ -10,3 +10,4 @@ export const LIKES_COUNTER = 0;
 export const USER_ID = 5;
 export const DISLIKES_COUNTER = 0;
 export const API_INITIAL_POSTS = 251;
+export const EMPTY_FIELD = "Fields cannot be left empty";

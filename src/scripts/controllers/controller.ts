@@ -10,6 +10,7 @@ import {
   LIKES_COUNTER,
   DISLIKES_COUNTER,
   USER_ID,
+  EMPTY_FIELD,
 } from "../constants";
 import {
   createdPostModel,
@@ -158,20 +159,14 @@ export class Controller {
 
     addPostForm.addEventListener("submit", (e: SubmitEvent) => {
       e.preventDefault();
-      const postTitle: HTMLInputElement = document.querySelector(
-        "#title"
-      )! as HTMLInputElement;
+      const postTitle: HTMLInputElement = document.querySelector("#title")!;
 
       const postContent = document.querySelector(
         "#content"
       )! as HTMLTextAreaElement;
 
-      const postTag1: HTMLInputElement = document.querySelector(
-        "#tag1"
-      )! as HTMLInputElement;
-      const postTag2: HTMLInputElement = document.querySelector(
-        "#tag2"
-      )! as HTMLInputElement;
+      const postTag1: HTMLInputElement = document.querySelector("#tag1")!;
+      const postTag2: HTMLInputElement = document.querySelector("#tag2")!;
 
       const tag1Value = postTag1.value.trim();
       const tag2Value = postTag2.value.trim();
@@ -185,6 +180,11 @@ export class Controller {
 
       const newPostContent = postContent.value.trim();
       const newPostTitle = postTitle.value.trim();
+
+      if (newPostContent === "" || newPostTitle === "") {
+        alert(EMPTY_FIELD);
+        return;
+      }
       if (postContent && postTitle) {
         const newPost: createdPostModel = {
           title: newPostTitle,

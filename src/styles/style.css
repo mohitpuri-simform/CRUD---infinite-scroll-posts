@@ -131,7 +131,6 @@ input {
 
 textarea {
   height: 80px;
-  margin-top: var(--spacing);
 }
 
 .post button {
