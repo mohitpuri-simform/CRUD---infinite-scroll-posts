@@ -145,7 +145,7 @@ export class Controller {
     window.addEventListener("scroll", () => {
       if (
         window.scrollY + window.innerHeight >=
-          document.documentElement.scrollHeight &&
+          document.documentElement.scrollHeight - 150 &&
         !this.checkIfFetching &&
         !this.checkIfSearching
       ) {
