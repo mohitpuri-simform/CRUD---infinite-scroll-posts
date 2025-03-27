@@ -1,5 +1,5 @@
 import { attachClassName } from "../../utils";
-import { NO_POST_FOUND } from "../constants";
+import { API_INITIAL_POSTS, NO_POST_FOUND } from "../constants";
 import { PostModel } from "../models/model";
 
 export class View {
@@ -49,22 +49,27 @@ export class View {
         views.textContent = data.views.toString();
       }
 
-      const deleteBtn = document.createElement("button");
-      deleteBtn.textContent = "Delete";
-      deleteBtn.id = data.id.toString();
-
-      const editBtn = document.createElement("button");
-      editBtn.textContent = "Edit";
-      editBtn.id = data.id.toString();
-
-      const editDeleteContainer = document.createElement("div");
-      attachClassName(editDeleteContainer, "edit-delete-container");
-
       reactions.append(likes, dislikes);
-      editDeleteContainer.append(editBtn, deleteBtn);
       if (!data.views) {
-        post.append(title, content, tags, reactions, editDeleteContainer);
+        post.append(title, content, tags, reactions);
       } else {
+        post.append(title, content, tags, views, reactions);
+      }
+
+      // skip appending delete and edit buttons if new post is created
+      if (data.id <= API_INITIAL_POSTS) {
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+        deleteBtn.id = data.id.toString();
+
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "Edit";
+        editBtn.id = data.id.toString();
+
+        const editDeleteContainer = document.createElement("div");
+        attachClassName(editDeleteContainer, "edit-delete-container");
+        editDeleteContainer.append(editBtn, deleteBtn);
+
         post.append(
           title,
           content,

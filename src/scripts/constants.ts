@@ -9,3 +9,4 @@ export const ENTER = "ENTER";
 export const LIKES_COUNTER = 0;
 export const USER_ID = 5;
 export const DISLIKES_COUNTER = 0;
+export const API_INITIAL_POSTS = 251;
