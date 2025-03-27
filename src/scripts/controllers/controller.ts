@@ -38,6 +38,11 @@ export class Controller {
     this.debounceSearch = debounce(this.searchPostWithKeyword.bind(this), 500);
   }
 
+  /**
+   * @description this controller method is used to display the posts for the infinite scrolling and fetch the API service to retrive post
+   * @return {*}  {Promise<void>}
+   * @memberof Controller
+   */
   async displayPost(): Promise<void> {
     if (this.checkIfFetching || this.checkIfSearching) return;
     this.checkIfFetching = true;
@@ -60,6 +65,12 @@ export class Controller {
     }
   }
 
+  /**
+   * this controller method is used to search a post with related keyword and pass the keyword to the API to search a post
+   * @param {string} keyword
+   * @return {*}  {Promise<void>}
+   * @memberof Controller
+   */
   async searchPostWithKeyword(keyword: string): Promise<void> {
     if (!keyword.trim()) {
       this.checkIfSearching = false;
@@ -82,6 +93,12 @@ export class Controller {
     }
   }
 
+  /**
+   * @description this controller method is used to pass the ID and title, description to the editPost Service API
+   * @param {number} id
+   * @param {EditNewPostRequest} newPost
+   * @memberof Controller
+   */
   async editPostWithID(id: number, newPost: EditNewPostRequest) {
     try {
       const data = await this.apiServices.editPost(id, newPost);
@@ -104,6 +121,12 @@ export class Controller {
     }
   }
 
+  /**
+   * this controller is used to pass the ID to the deletePost Service API to delete a post
+   * @param {number} id
+   * @return {*}  {Promise<void>}
+   * @memberof Controller
+   */
   async deletePostWithID(id: number): Promise<void> {
     try {
       const data = await this.apiServices.deletePost(id);
@@ -120,6 +143,11 @@ export class Controller {
     }
   }
 
+  /**
+   * this controller is used to pass the newPost content to the createPost Service API
+   * @param {createdPostModel} newPost
+   * @memberof Controller
+   */
   async createPostAndAddToDisplay(newPost: createdPostModel) {
     try {
       const data = await this.apiServices.createPost(newPost);
@@ -138,6 +166,10 @@ export class Controller {
     }
   }
 
+  /**
+   * @description this method is used to display the posts infinitly
+   * @memberof Controller
+   */
   infinteScrollPosts() {
     this.displayPost();
     window.addEventListener("scroll", () => {
