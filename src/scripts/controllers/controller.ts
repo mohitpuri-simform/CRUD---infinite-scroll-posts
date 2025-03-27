@@ -85,7 +85,6 @@ export class Controller {
   async editPostWithID(id: number, newPost: EditNewPostRequest) {
     try {
       const data = await this.apiServices.editPost(id, newPost);
-      console.log(data);
 
       const arr: PostModel[] = [];
       this.posts.map((item) => {
@@ -125,10 +124,8 @@ export class Controller {
     try {
       const data = await this.apiServices.createPost(newPost);
       const updatedPosts: PostModel[] = [];
-      console.log(data);
 
       updatedPosts.push(data);
-      console.log(updatedPosts);
 
       this.posts = [...updatedPosts, ...this.posts];
       this.view.addPost(this.posts);
