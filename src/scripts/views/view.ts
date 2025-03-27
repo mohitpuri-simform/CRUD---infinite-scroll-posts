@@ -7,15 +7,22 @@ export class View {
     const postContainer: HTMLDivElement =
       document.querySelector(".posts-container")!;
     postContainer.textContent = "";
+    postContainer.setAttribute("aria-live", "polite");
+
     if (posts.length === 0) {
       postContainer.textContent = NO_POST_FOUND;
     }
     posts.forEach((data: PostModel) => {
-      const post = document.createElement("div");
+      const post = document.createElement("article");
+      post.setAttribute("tabindex", "0");
+      post.setAttribute("aria-labelledby", "");
       attachClassName(post, "post");
 
       const title = document.createElement("p");
       attachClassName(title, "post-title");
+      title.setAttribute("tabindex", "0");
+      title.setAttribute("aria-label", `${data.title}`);
+      title.setAttribute("role", "heading");
       title.textContent = data.title;
 
       const content = document.createElement("p");
@@ -25,7 +32,7 @@ export class View {
       const tags = document.createElement("div");
       attachClassName(tags, "post-tags");
       for (const element of data.tags) {
-        const span = document.createElement("p");
+        const span = document.createElement("button");
         span.textContent = element;
         tags.append(span);
       }
@@ -60,10 +67,12 @@ export class View {
       if (data.id <= API_INITIAL_POSTS) {
         const deleteBtn = document.createElement("button");
         deleteBtn.textContent = "Delete";
+        deleteBtn.setAttribute("title", "Delete Post");
         deleteBtn.id = data.id.toString();
 
         const editBtn = document.createElement("button");
         editBtn.textContent = "Edit";
+        editBtn.setAttribute("title", "Edit Post");
         editBtn.id = data.id.toString();
 
         const editDeleteContainer = document.createElement("div");

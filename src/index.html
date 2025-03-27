@@ -9,23 +9,56 @@
   <body>
     <nav>
       <a href="#">Postagram</a>
-      <input type="text" placeholder="Search for posts..." id="search" />
+      <input
+        type="text"
+        placeholder="Search for posts..."
+        aria-label="Search for posts"
+        id="search"
+      />
     </nav>
     <div class="form-container">
-      <form class="create-new-post">
-        <p>Create New Post</p>
+      <form class="create-new-post" aria-labelledby="create">
+        <p id="create">Create New Post</p>
         <label for="title">Enter Post Title:</label>
-        <input type="text" placeholder="Post Title" id="title" required />
+        <input
+          type="text"
+          placeholder="Post Title"
+          id="title"
+          required
+          aria-required="true"
+        />
         <label for="content">Enter Post Description:</label>
-        <textarea type="text" id="content" required></textarea>
+        <textarea
+          type="text"
+          id="content"
+          required
+          aria-required="true"
+        ></textarea>
         <div class="tags">
-          <input type="text" placeholder="Tag for the post" id="tag1" />
-          <input type="text" placeholder="Tag for the post" id="tag2" />
+          <input
+            type="text"
+            placeholder="Tag for the post"
+            id="tag1"
+            aria-label="Enter a Tag for the post"
+          />
+          <input
+            type="text"
+            placeholder="Tag for the post"
+            id="tag2"
+            aria-label="Enter a Tag for the post"
+          />
         </div>
-        <button type="submit" id="create-post-button">Add</button>
+        <button
+          type="submit"
+          id="create-post-button"
+          aria-label="Create new Post"
+          title="Create Post"
+        >
+          Add
+        </button>
       </form>
     </div>
-    <div class="posts-container"></div>
+    <div class="posts-container" id="main-content"></div>
   </body>
   <script type="module" src="./scripts/main.ts"></script>
 </html>
