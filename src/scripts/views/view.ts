@@ -3,6 +3,11 @@ import { API_INITIAL_POSTS, NO_POST_FOUND } from "../constants";
 import { PostModel } from "../models/model";
 
 export class View {
+  /**
+   * @description this method is used to add the post into the DOM for the div of class called posts-container
+   * @param {PostModel[]} posts
+   * @memberof View
+   */
   addPost(posts: PostModel[]) {
     const postContainer: HTMLDivElement =
       document.querySelector(".posts-container")!;
