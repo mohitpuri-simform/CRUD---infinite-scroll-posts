@@ -10,3 +10,7 @@ export function debounce<T extends (...args: Parameters<T>) => void>(
     }, delay);
   };
 }
+
+export function attachClassName(element: HTMLElement, className: string) {
+  element.className = className;
+}

@@ -11,6 +11,20 @@
       <a href="#">Postagram</a>
       <input type="text" placeholder="Search for posts..." id="search" />
     </nav>
+    <div class="form-container">
+      <form class="create-new-post">
+        <p>Create New Post</p>
+        <label for="title">Enter Post Title:</label>
+        <input type="text" placeholder="Post Title" id="title" required />
+        <label for="content">Enter Post Description:</label>
+        <textarea type="text" id="content" required></textarea>
+        <div class="tags">
+          <input type="text" placeholder="Tag for the post" id="tag1" />
+          <input type="text" placeholder="Tag for the post" id="tag2" />
+        </div>
+        <button type="submit" id="create-post-button">Add</button>
+      </form>
+    </div>
     <div class="posts-container"></div>
   </body>
   <script type="module" src="./scripts/main.ts"></script>
