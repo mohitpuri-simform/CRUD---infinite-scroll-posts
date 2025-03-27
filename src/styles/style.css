@@ -17,7 +17,7 @@
   box-sizing: border-box;
 }
 
-*:focus {
+*:focus:not(article) {
   outline: 2px solid var(--focus-color);
 }
 
